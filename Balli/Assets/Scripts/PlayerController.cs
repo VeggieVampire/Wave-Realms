@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour {
 
@@ -17,13 +18,19 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update() {
+
+
 		float moveX = Input.GetAxis ("Horizontal");
+		float moveXMoble = CrossPlatformInputManager.GetAxis("Horizontal");
+		float moveYMoble = CrossPlatformInputManager.GetAxis("Vertical");
 		float moveY = Input.GetAxis ("Vertical");
-
-
+		/*
+		float moveX = CrossPlatformInputManager ("Horizontal");
+		float moveY = CrossPlatformInputManager ("Vertical");
+	*/
 		//Animation
 		//Left and right animation
-		if (moveX != 0) {
+		if (moveX != 0 || moveXMoble != 0) {
 			GetComponent<Animator> ().SetBool ("IsRunningRight", true);
 		} else {
 			//Debug.Log ("Unset Right");
@@ -31,12 +38,12 @@ public class PlayerController : MonoBehaviour {
 		}
 		//Down and Up animation
 		//Down
-		if (moveY != 0 && moveY < 0){
+		if (moveY != 0 && moveY < 0 ||moveYMoble != 0 && moveYMoble < 0 ){
 			GetComponent<Animator> ().SetBool ("IsRunningUp", false);
 			GetComponent<Animator> ().SetBool ("IsRunningDown", true);
 			//Debug.Log ("Down");
 		//Up
-		} else if (moveY != 0 && moveY > 0) {
+		} else if (moveY != 0 && moveY > 0 ||moveYMoble != 0 && moveYMoble > 0) {
 			GetComponent<Animator> ().SetBool ("IsRunningUp", true);
 			GetComponent<Animator> ().SetBool ("IsRunningDown", false);
 			//Debug.Log ("Up");
@@ -47,23 +54,23 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Left and Right
-		if(moveX < 0.0f ){
+		if(moveX < 0.0f ||moveXMoble < 0.0f){
 			GetComponent<SpriteRenderer> ().flipX = true;
 			//Debug.Log ("Moving left");
 			//GetComponent<Animator>().SetBool ("IsRunningRight", true);
 
 		}
-		else if (moveX > 0.0f){
+		else if (moveX > 0.0f||moveXMoble > 0.0f){
 			GetComponent<SpriteRenderer> ().flipX = false;
 			//Debug.Log ("Moving right");
 			//GetComponent<Animator>().SetBool ("IsRunningRight", true);
 		}
 		//Up and Down
-		if(moveY > 0.0f ){
+		if(moveY > 0.0f||moveYMoble > 0.0f ){
 			//GetComponent<Animator>().SetBool ("IsRunningUp", true);
 			//Debug.Log ("Moving Up");
 		}
-		else if (moveY < 0.0f){
+		else if (moveY < 0.0f||moveYMoble < 0.0f){
 			//Debug.Log ("Moving Down");
 			//GetComponent<Animator>().SetBool ("IsRunningDown", true);
 		}
@@ -80,14 +87,18 @@ public class PlayerController : MonoBehaviour {
 	{
 		//Store the current horizontal input in the float moveHorizontal.
 		float moveHorizontal = Input.GetAxis ("Horizontal");
-		//Debug.Log ("H: " + moveHorizontal);
 
+		float moveHorizontalMoble = CrossPlatformInputManager.GetAxis("Horizontal");
 		//Store the current vertical input in the float moveVertical.
 		float moveVertical = Input.GetAxis ("Vertical");
-		//Debug.Log ("V: " + moveVertical);
+		float moveVerticalMoble = CrossPlatformInputManager.GetAxis("Vertical");
 		//Use the two store floats to create a new Vector2 variable movement.
-		rb2d.velocity = new Vector2 (moveHorizontal * PlayerSpeed, moveVertical * PlayerSpeed);
-
+		if (moveHorizontal != 0 || moveVertical != 0) {
+			rb2d.velocity = new Vector2 (moveHorizontal * PlayerSpeed, moveVertical * PlayerSpeed);
+		}
+		if (moveHorizontalMoble != 0 || moveVerticalMoble != 0) {
+			rb2d.velocity = new Vector2 (moveHorizontalMoble * PlayerSpeed, moveVerticalMoble * PlayerSpeed);
+		}
 		//Debug.Log ("H & V: " + movement);
 		//Call the AddForce function of our Rigidbody2D rb2d supplying movement multiplied by speed to move our player.
 		//rb2d.AddForce (movement * speed);
