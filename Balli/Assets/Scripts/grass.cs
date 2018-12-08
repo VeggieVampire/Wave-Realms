@@ -35,13 +35,15 @@ public class grass : MonoBehaviour {
 		//Debug.Log ("y " + gameObject.transform.position.y);
 		//float startX gameObject.transform.position.x;
 		//float startY gameObject.transform.position.y;
-		float sw = Screen.width / 30;
-		//Debug.Log ("Screen Height: " + Screen.height/30);
-		float sh = Screen.height / 30;
+		//float sw = Screen.width / 30;
+		float sw = 40;
+		//Debug.Log ("Screen Height: " + Screen.width / 30);
+		float sh = 18;
+
 		for (int y = 0; y < sh - 5; y++)
 		{
 			for (int x = 0; x < sw - 11; x++) {
-				float swidth = (x * sw) / 46;
+				float swidth = (x * sw) / 49;
 				float sheight = (y * sh) /22 ;
 				int RRnumber = Random.Range (1, 5);
 				if (RRnumber == 1) {
