@@ -20,61 +20,6 @@ public class PlayerController : MonoBehaviour {
 	void Update() {
 
 
-		float moveX = Input.GetAxis ("Horizontal");
-		float moveXMoble = CrossPlatformInputManager.GetAxis("Horizontal");
-		float moveYMoble = CrossPlatformInputManager.GetAxis("Vertical");
-		float moveY = Input.GetAxis ("Vertical");
-		/*
-		float moveX = CrossPlatformInputManager ("Horizontal");
-		float moveY = CrossPlatformInputManager ("Vertical");
-	*/
-		//Animation
-		//Left and right animation
-		if (moveX != 0 || moveXMoble != 0) {
-			GetComponent<Animator> ().SetBool ("IsRunningRight", true);
-		} else {
-			//Debug.Log ("Unset Right");
-			GetComponent<Animator> ().SetBool ("IsRunningRight", false);
-		}
-		//Down and Up animation
-		//Down
-		if (moveY != 0 && moveY < 0 ||moveYMoble != 0 && moveYMoble < 0 ){
-			GetComponent<Animator> ().SetBool ("IsRunningUp", false);
-			GetComponent<Animator> ().SetBool ("IsRunningDown", true);
-			//Debug.Log ("Down");
-		//Up
-		} else if (moveY != 0 && moveY > 0 ||moveYMoble != 0 && moveYMoble > 0) {
-			GetComponent<Animator> ().SetBool ("IsRunningUp", true);
-			GetComponent<Animator> ().SetBool ("IsRunningDown", false);
-			//Debug.Log ("Up");
-
-		} else {
-			GetComponent<Animator> ().SetBool ("IsRunningUp", false);
-			GetComponent<Animator> ().SetBool ("IsRunningDown", false);
-		}
-
-		//Left and Right
-		if(moveX < 0.0f ||moveXMoble < 0.0f){
-			GetComponent<SpriteRenderer> ().flipX = true;
-			//Debug.Log ("Moving left");
-			//GetComponent<Animator>().SetBool ("IsRunningRight", true);
-
-		}
-		else if (moveX > 0.0f||moveXMoble > 0.0f){
-			GetComponent<SpriteRenderer> ().flipX = false;
-			//Debug.Log ("Moving right");
-			//GetComponent<Animator>().SetBool ("IsRunningRight", true);
-		}
-		//Up and Down
-		if(moveY > 0.0f||moveYMoble > 0.0f ){
-			//GetComponent<Animator>().SetBool ("IsRunningUp", true);
-			//Debug.Log ("Moving Up");
-		}
-		else if (moveY < 0.0f||moveYMoble < 0.0f){
-			//Debug.Log ("Moving Down");
-			//GetComponent<Animator>().SetBool ("IsRunningDown", true);
-		}
-			
 	}
 
 	void OnCollisionEnter2D (Collision2D col){
@@ -82,9 +27,75 @@ public class PlayerController : MonoBehaviour {
 		Debug.Log(col.gameObject.tag);
 	}
 
+	void AnimnationMovement(){
+			float moveX = Input.GetAxis ("Horizontal");
+			float moveXMoble = CrossPlatformInputManager.GetAxis("Horizontal");
+			float moveYMoble = CrossPlatformInputManager.GetAxis("Vertical");
+			float moveY = Input.GetAxis ("Vertical");
+			/*
+		float moveX = CrossPlatformInputManager ("Horizontal");
+		float moveY = CrossPlatformInputManager ("Vertical");
+	*/
+			//Animation
+			//Left and right animation
+			if (moveX != 0 || moveXMoble != 0) {
+				GetComponent<Animator> ().SetBool ("IsRunningRight", true);
+			} else {
+				//Debug.Log ("Unset Right");
+				GetComponent<Animator> ().SetBool ("IsRunningRight", false);
+			}
+			//Down and Up animation
+			//Down
+			if (moveY != 0 && moveY < 0 ||moveYMoble != 0 && moveYMoble < 0 ){
+				GetComponent<Animator> ().SetBool ("IsRunningUp", false);
+				GetComponent<Animator> ().SetBool ("IsRunningDown", true);
+				//Debug.Log ("Down");
+				//Up
+			} else if (moveY != 0 && moveY > 0 ||moveYMoble != 0 && moveYMoble > 0) {
+				GetComponent<Animator> ().SetBool ("IsRunningUp", true);
+				GetComponent<Animator> ().SetBool ("IsRunningDown", false);
+				//Debug.Log ("Up");
+
+			} else {
+				GetComponent<Animator> ().SetBool ("IsRunningUp", false);
+				GetComponent<Animator> ().SetBool ("IsRunningDown", false);
+			}
+
+			//Left and Right
+			if(moveX < 0.0f ||moveXMoble < 0.0f){
+				GetComponent<SpriteRenderer> ().flipX = true;
+				//Debug.Log ("Moving left");
+				//GetComponent<Animator>().SetBool ("IsRunningRight", true);
+
+			}
+			else if (moveX > 0.0f||moveXMoble > 0.0f){
+				GetComponent<SpriteRenderer> ().flipX = false;
+				//Debug.Log ("Moving right");
+				//GetComponent<Animator>().SetBool ("IsRunningRight", true);
+			}
+			//Up and Down
+			if(moveY > 0.0f||moveYMoble > 0.0f ){
+				//GetComponent<Animator>().SetBool ("IsRunningUp", true);
+				//Debug.Log ("Moving Up");
+			}
+			else if (moveY < 0.0f||moveYMoble < 0.0f){
+				//Debug.Log ("Moving Down");
+				//GetComponent<Animator>().SetBool ("IsRunningDown", true);
+			}
+
+
+
+	}
+
 	//FixedUpdate is called at a fixed interval and is independent of frame rate. Put physics code here.
 	void FixedUpdate()
 	{
+		PLayerMovement ();
+		AnimnationMovement ();
+	}
+
+	void PLayerMovement(){
+		#region
 		//Store the current horizontal input in the float moveHorizontal.
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 
@@ -106,6 +117,6 @@ public class PlayerController : MonoBehaviour {
 		//GetComponentInParent<Rigidbody2D>().velocity = new Vector2 (moveVertical*speed, GetComponentInParent<Rigidbody2D>().velocity.x);
 		//rb2d.velocity = new Vector2 (moveHorizontal*5, rb2d.velocity.x);
 		//Debug.Log (movement * speed);
-
+		#endregion
 	}
 }
