@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
+
 public class PlayerController : MonoBehaviour {
-
+	//[SerializeField]
 	private float PlayerSpeed = 10f;             //Floating point variable to store the player's movement speed.
+	public static RuntimePlatform platform;
 
+	private float MoveThreshold = 0.5f;
 	private Rigidbody2D rb2d;       //Store a reference to the Rigidbody2D component required to use 2D Physics.
-
+	//private Vector2 direction;
 	// Use this for initialization
 	void Start()
 	{
-		//Get and store a reference to the Rigidbody2D component so that we can access it.
-		rb2d = GetComponent<Rigidbody2D> ();
-		//Anim = GetComponent<Animator> ();
+		Screen.orientation = ScreenOrientation.Portrait;
+		Debug.Log ("Device: " + Application.platform);
 	}
 
 	void Update() {
-
-
+		Move ();
 	}
 
 	void OnCollisionEnter2D (Collision2D col){
@@ -90,33 +91,47 @@ public class PlayerController : MonoBehaviour {
 	//FixedUpdate is called at a fixed interval and is independent of frame rate. Put physics code here.
 	void FixedUpdate()
 	{
-		PLayerMovement ();
 		AnimnationMovement ();
 	}
+		
 
-	void PLayerMovement(){
+	private void Move(){
+		float Currentspeed = PlayerSpeed*Time.deltaTime;
 		#region
-		//Store the current horizontal input in the float moveHorizontal.
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-
-		float moveHorizontalMoble = CrossPlatformInputManager.GetAxis("Horizontal");
-		//Store the current vertical input in the float moveVertical.
-		float moveVertical = Input.GetAxis ("Vertical");
-		float moveVerticalMoble = CrossPlatformInputManager.GetAxis("Vertical");
-		//Use the two store floats to create a new Vector2 variable movement.
-		if (moveHorizontal != 0 || moveVertical != 0) {
-			rb2d.velocity = new Vector2 (moveHorizontal * PlayerSpeed, moveVertical * PlayerSpeed);
+		float moveHorizontal = 0f;
+		float moveVertical = 0f;
+		//Horizontal movement
+		if (Input.GetAxis ("Horizontal") != 0){
+			moveHorizontal = Input.GetAxis ("Horizontal");
+		} else if  (CrossPlatformInputManager.GetAxis("Horizontal") != 0){
+			//Moblie Horizontal
+			moveHorizontal = CrossPlatformInputManager.GetAxis ("Horizontal");
 		}
-		if (moveHorizontalMoble != 0 || moveVerticalMoble != 0) {
-			rb2d.velocity = new Vector2 (moveHorizontalMoble * PlayerSpeed, moveVerticalMoble * PlayerSpeed);
-		}
-		//Debug.Log ("H & V: " + movement);
-		//Call the AddForce function of our Rigidbody2D rb2d supplying movement multiplied by speed to move our player.
-		//rb2d.AddForce (movement * speed);
 
-		//GetComponentInParent<Rigidbody2D>().velocity = new Vector2 (moveVertical*speed, GetComponentInParent<Rigidbody2D>().velocity.x);
-		//rb2d.velocity = new Vector2 (moveHorizontal*5, rb2d.velocity.x);
-		//Debug.Log (movement * speed);
+		//Vertical movement
+		if (Input.GetAxis ("Vertical") != 0){
+			moveVertical = Input.GetAxis ("Vertical");
+		} else if  (CrossPlatformInputManager.GetAxis("Vertical") != 0){
+			//Moblie Vertical
+			moveVertical = CrossPlatformInputManager.GetAxis ("Vertical");
+		}
 		#endregion
+
+		//Check if movement not null 
+		if (moveHorizontal != 0 || moveVertical != 0 ) {
+			//movement not null, now check
+			if (moveHorizontal > MoveThreshold || moveHorizontal < -MoveThreshold) { 
+				transform.Translate (new Vector3 (moveHorizontal * Currentspeed, 0f, 0f));
+				}
+		
+			if (moveVertical > MoveThreshold || moveVertical < -MoveThreshold) { 
+				transform.Translate (new Vector3 (0f, moveVertical * Currentspeed, 0f));
+			} 
+		} else {
+			//stops movement on the spot 
+			//Debug.Log ("Last Direction "+ direction);
+			//rb2d.velocity = Vector2.zero;
+			transform.Translate (new Vector3 (0f, 0f, 0f));
+		}
 	}
 }

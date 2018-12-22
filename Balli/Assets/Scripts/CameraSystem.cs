@@ -13,6 +13,7 @@ public class CameraSystem : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Screen.orientation = ScreenOrientation.Portrait;
 		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
