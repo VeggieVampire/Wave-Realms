@@ -11,12 +11,17 @@ public class PlayerController : MonoBehaviour {
 
 	private float MoveThreshold = 0.5f;
 	private Rigidbody2D rb2d;       //Store a reference to the Rigidbody2D component required to use 2D Physics.
+
+	private Animator anim;
+	private bool playerMoving;
+	private Vector2 lastMove;
 	//private Vector2 direction;
 	// Use this for initialization
 	void Start()
 	{
 		Screen.orientation = ScreenOrientation.Portrait;
 		Debug.Log ("Device: " + Application.platform);
+		anim = GetComponent<Animator> ();
 	}
 
 	void Update() {
@@ -91,12 +96,13 @@ public class PlayerController : MonoBehaviour {
 	//FixedUpdate is called at a fixed interval and is independent of frame rate. Put physics code here.
 	void FixedUpdate()
 	{
-		AnimnationMovement ();
+		//AnimnationMovement ();
 	}
 		
 
 	private void Move(){
 		float Currentspeed = PlayerSpeed*Time.deltaTime;
+		playerMoving = false;
 		#region
 		float moveHorizontal = 0f;
 		float moveVertical = 0f;
@@ -120,18 +126,28 @@ public class PlayerController : MonoBehaviour {
 		//Check if movement not null 
 		if (moveHorizontal != 0 || moveVertical != 0 ) {
 			//movement not null, now check
-			if (moveHorizontal > MoveThreshold || moveHorizontal < -MoveThreshold) { 
+			if (moveHorizontal > MoveThreshold || moveHorizontal < - MoveThreshold) { 
 				transform.Translate (new Vector3 (moveHorizontal * Currentspeed, 0f, 0f));
+				playerMoving = true;
+				lastMove = new Vector2 (moveHorizontal, 0f);
 				}
 		
-			if (moveVertical > MoveThreshold || moveVertical < -MoveThreshold) { 
+			if (moveVertical > MoveThreshold || moveVertical < - MoveThreshold) { 
 				transform.Translate (new Vector3 (0f, moveVertical * Currentspeed, 0f));
+				playerMoving = true;
+				lastMove = new Vector2 (0f, moveVertical);
 			} 
 		} else {
 			//stops movement on the spot 
 			//Debug.Log ("Last Direction "+ direction);
 			//rb2d.velocity = Vector2.zero;
 			transform.Translate (new Vector3 (0f, 0f, 0f));
+			playerMoving = false;
 		}
+	anim.SetFloat ("MoveXanim", moveHorizontal);
+	anim.SetFloat ("MoveYanim", moveVertical);
+	anim.SetBool ("PlayerMoving", playerMoving);
+	anim.SetFloat ("LastMoveX", lastMove.x);
+	anim.SetFloat ("LastMoveY", lastMove.y);
 	}
 }
