@@ -38,8 +38,16 @@ public class CameraSystem : MonoBehaviour {
 
 
 	void Clamping (){
-		float x = Mathf.Clamp (followTarget.transform.position.x, xMin, xMax);
-		float y = Mathf.Clamp (followTarget.transform.position.y, yMin, yMax);
+		float x = transform.position.x;
+		float y = transform.position.y;
+
+		if (transform.position.x <= xMin || transform.position.x >= xMax){
+			x = Mathf.Clamp (followTarget.transform.position.x, xMin, xMax);
+		} 
+		if (transform.position.y <= yMin || transform.position.y >= yMax) {
+			y = Mathf.Clamp (followTarget.transform.position.y, yMin, yMax);
+		}
+		//float y = Mathf.Clamp (followTarget.transform.position.y, yMin, yMax);
 		gameObject.transform.position = new Vector3 (x, y, gameObject.transform.position.z);
 	}
 }
