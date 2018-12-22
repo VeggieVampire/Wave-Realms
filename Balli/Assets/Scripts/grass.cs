@@ -43,7 +43,7 @@ public class grass : MonoBehaviour {
 		for (int y = 0; y < sh - 5; y++)
 		{
 			for (int x = 0; x < sw - 11; x++) {
-				float swidth = (x * sw) / 100;
+				float swidth = (x * sw) ;
 				float sheight = (y * sh) /22 ;
 				int RRnumber = Random.Range (1, 5);
 				if (RRnumber == 1) {
