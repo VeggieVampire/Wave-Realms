@@ -21,7 +21,7 @@ public class GameControl : MonoBehaviour {
 
 	void Start () {
 		//Debug.Log("Point!");
-		Debug.Log ("Device: " + Application.platform);
+
 	}
 
 	// Update is called once per frame

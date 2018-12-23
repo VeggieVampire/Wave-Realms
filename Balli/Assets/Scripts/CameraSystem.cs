@@ -13,22 +13,52 @@ public class CameraSystem : MonoBehaviour {
 	public float yMin;
 	public float yMax;
 
-	public GameObject touch;
+	private GameObject touch;
+	private GameObject MoveTouch;
+	private RectTransform MoveTouch2;
 	// Use this for initialization
 	void Start () {
 	//	Screen.orientation = ScreenOrientation.Portrait;
 		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		//player = GameObject.FindGameObjectWithTag ("Player");
 
-		//Checking for moblie
+		//Debug.Log ("Screen Height: " + Screen.height);
+		//Debug.Log ("Screen Width: " + Screen.width);
+
+		//Checking for moblie stuff
 		Debug.Log ("Device: " + Application.platform);
 
-		//Debug.Log (GameObject.Find("DualTouchControls").name);
+
+		/*
+		MoveTouch = GameObject.Find ("MoveTouchpad");
+		MoveTouch.transform.Translate (new Vector2 (Screen.width/4,100f));
+		//Change the Position of the MoveTouch pad
+		MoveTouch2 = GameObject.Find ("MoveTouchpad").GetComponent<RectTransform> ();
+
+	*/
+		//Change the Position of the MoveTouch pad
+		//MoveTouch2.localPosition = new Vector2(2f,5f);
+
+		//Change the size of the MoveTouch pad
+		//MoveTouch2.sizeDelta = new Vector2(Screen.width/2,Screen.height/2);
 
 		//This check if it's running Windows and if it is then deletes the touch on screen stuff
 		if (Application.platform == RuntimePlatform.WindowsPlayer||Application.platform == RuntimePlatform.WindowsEditor){
-			touch = GameObject.Find ("DualTouchControls");
-			Destroy (touch);
+			//touch = GameObject.Find ("DualTouchControls");
+
+			touch = GameObject.Find ("MobileJoystick");
+			if (touch.name != "DualTouchControls") {
+				//	touch = GameObject.Find ("MoblieSingleStickControl");
+				Debug.Log (touch.transform.parent.gameObject.name);
+				Destroy (touch.transform.parent.gameObject);
+				Destroy (touch);
+			} else {
+				Destroy (touch.transform.parent.gameObject);
+				Destroy (touch);
+			}
+			//Destroy (touch);
+			//touch.SetActive(false);
+			//Debug.Log("DualTouchControls status: " + touch.activeSelf);
 			}
 	}
 
