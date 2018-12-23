@@ -19,8 +19,9 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start()
 	{
-		Screen.orientation = ScreenOrientation.Portrait;
-		Debug.Log ("Device: " + Application.platform);
+		//Screen.orientation = ScreenOrientation.Portrait;
+		Screen.orientation = ScreenOrientation.LandscapeLeft;
+		//Debug.Log ("Device: " + Application.platform);
 		anim = GetComponent<Animator> ();
 	}
 
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionEnter2D (Collision2D col){
 		Debug.Log("Player has collided with " + col.collider.name);
-		Debug.Log(col.gameObject.tag);
+		//Debug.Log(col.gameObject.tag);
 	}
 
 	void AnimnationMovement(){

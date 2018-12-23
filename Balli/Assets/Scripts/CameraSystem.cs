@@ -13,11 +13,23 @@ public class CameraSystem : MonoBehaviour {
 	public float yMin;
 	public float yMax;
 
-
+	public GameObject touch;
 	// Use this for initialization
 	void Start () {
 	//	Screen.orientation = ScreenOrientation.Portrait;
+		Screen.orientation = ScreenOrientation.LandscapeLeft;
 		//player = GameObject.FindGameObjectWithTag ("Player");
+
+		//Checking for moblie
+		Debug.Log ("Device: " + Application.platform);
+
+		//Debug.Log (GameObject.Find("DualTouchControls").name);
+
+		//This check if it's running Windows and if it is then deletes the touch on screen stuff
+		if (Application.platform == RuntimePlatform.WindowsPlayer||Application.platform == RuntimePlatform.WindowsEditor){
+			touch = GameObject.Find ("DualTouchControls");
+			Destroy (touch);
+			}
 	}
 
 	// Update is called once per frame

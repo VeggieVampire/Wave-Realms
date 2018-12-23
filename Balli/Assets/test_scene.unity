@@ -9186,11 +9186,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followTarget: {fileID: 1926762070}
-  moveSpeed: 3
+  moveSpeed: 5
   xMin: 11.06
   xMax: 22.5
   yMin: 4.5
   yMax: 18.5
+  touch: {fileID: 0}
 --- !u!1 &1448778566
 GameObject:
   m_ObjectHideFlags: 0
