@@ -64,7 +64,7 @@ public class NPCController : MonoBehaviour {
 			//Debug.Log (followTarget.name + "is " + Distance().ToString () + " units from" + NPC.name);
 
 			//checks distance from followTarget and NPC
-			if(Distance() <= 10){
+			if(Distance() <= 5){
 				//Makes NPC face followTarget
 				transform.up = followTarget.position - transform.position;
 
