@@ -44,19 +44,19 @@ public class CameraSystem : MonoBehaviour {
 
 		//This check if it's running Windows and if it is then deletes the touch on screen stuff
 		if (Application.platform == RuntimePlatform.WindowsPlayer||Application.platform == RuntimePlatform.WindowsEditor){
-			//touch = GameObject.Find ("DualTouchControls");
+			touch = GameObject.Find ("MoveTouchpad");
 
-			touch = GameObject.Find ("MobileJoystick");
+			//touch = GameObject.Find ("MobileJoystick");
 			if (touch.name != "DualTouchControls") {
-				//	touch = GameObject.Find ("MoblieSingleStickControl");
-				Debug.Log (touch.transform.parent.gameObject.name);
-				Destroy (touch.transform.parent.gameObject);
-				Destroy (touch);
-			} else {
-				Destroy (touch.transform.parent.gameObject);
-				Destroy (touch);
-			}
-			//Destroy (touch);
+					//	touch = GameObject.Find ("MoblieSingleStickControl");
+					//Debug.Log (touch.transform.parent.gameObject.name);
+					Destroy (touch.transform.parent.gameObject);
+					Destroy (touch);
+				} else {
+					Destroy (touch.transform.parent.gameObject);
+					Destroy (touch);
+				}
+			Destroy (touch);
 			//touch.SetActive(false);
 			//Debug.Log("DualTouchControls status: " + touch.activeSelf);
 			}

@@ -24,7 +24,7 @@ public class grass : MonoBehaviour {
 
 
 		//OldScript ();
-		NewScript ();
+	//	NewScript ();
 
 	}
 	
@@ -120,11 +120,12 @@ public class grass : MonoBehaviour {
 
 	//	Debug.Log ("Tile Width: " + TileWidth + " Height: " + TileHeight);
 		Destroy (myGrass);
-		SpawnGrass (5f, 1f); 
+		//SpawnGrass (5f, 1f); /test grass
+
 	//	float y = TileHeight;
 	//	float x = TileWidth;
 
-		float sw = Screen.width / 16;
+		float sw = Screen.width / 16 ;
 		float sh = Screen.height / 10;
 		//Debug.Log ("Screen Height: " + Screen.width / 30);
 		//float sh = 100f;
