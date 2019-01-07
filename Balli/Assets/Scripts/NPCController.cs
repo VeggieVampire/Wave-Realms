@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour {
 	public float NPCSpeed = 1;
+	public float DistanceFromTarget = 5;
 	private Rigidbody2D MyRigidbody;
 
 	private int DurectionRadomNumber;
@@ -27,7 +28,8 @@ public class NPCController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		MyRigidbody = GetComponent<Rigidbody2D>();
-		DurectionRadomNumber = Random.Range (1, 4);
+		//DurectionRadomNumber = Random.Range (1, 4);
+		DurectionRadomNumber = 3;
 		NPCSpeed = NPCSpeed * Time.deltaTime;
 		Currentspeed = NPCSpeed;
 
@@ -54,17 +56,16 @@ public class NPCController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+		
+		//Check if the NPC found a target
 		if (followTarget) {
-			//Makes NPC face player
 
-
-
+			//Turns on the animation
 			GetComponent<Animator> ().SetBool ("IsMoving", false);
 			//Debug.Log (followTarget.name + "is " + Distance().ToString () + " units from" + NPC.name);
 
 			//checks distance from followTarget and NPC
-			if(Distance() <= 5){
+			if(Distance() <= DistanceFromTarget){
 				//Makes NPC face followTarget
 				transform.up = followTarget.position - transform.position;
 
@@ -97,25 +98,25 @@ public class NPCController : MonoBehaviour {
 			//gameObject.transform.Rotate (Vector3.right *Currentspeed);
 			transform.Translate (new Vector3 (-Currentspeed, 0f, 5f));
 			//MyRigidbody.velocity = (new Vector2(-Currentspeed,0f));
-			Debug.Log ("left");
+		//	Debug.Log ("NPC left");
 			break;
 		case 2: //Right
 			//gameObject.transform.Rotate (Vector3.right *Currentspeed);
 			transform.Translate (new Vector3 (Currentspeed, 0f, 0f));
 			//MyRigidbody.velocity = (new Vector2(Currentspeed,0f));
-			Debug.Log ("right");
+		//	Debug.Log ("NPC right");
 			break;
 		case 3://up
 			//gameObject.transform.Rotate (Vector3.right *Currentspeed);
 			transform.Translate (new Vector3 (0f, Currentspeed, 0f));
 			//MyRigidbody.velocity = (new Vector2(0f,Currentspeed));
-			Debug.Log ("up");
+	//		Debug.Log ("NPC up");
 			break;
 		case 4://down
 			//gameObject.transform.Rotate (Vector3.right *Currentspeed);
 			transform.Translate (new Vector3 (0f, -Currentspeed, 0f));
 			//MyRigidbody.velocity = (new Vector2(0f,-Currentspeed));
-			Debug.Log ("down");
+	//		Debug.Log ("NPC down");
 			break;
 		}
 	

@@ -15,6 +15,26 @@ public class PlayerController : MonoBehaviour {
 	private Animator anim;
 	private bool playerMoving;
 	private Vector2 lastMove;
+
+
+	public Transform dust;
+	public float DustBounceLow;
+	public float DustBounceHigh;
+
+	public float DustOffXRightLeft;
+	public float DustOffYRightLeft;
+	public float DustOffXUpDown;
+	public float DustOffYUpDown;
+	public float DustTime;
+	private float DustTimeCurrent;
+
+	private float DustDirectionX;
+	private float DustDirectionY;
+
+	private bool DustdirectionLockRightLeft = false;
+	private bool DustdirectionLockUpDown = false;
+	//private GameObject myDust;
+
 	//private Vector2 direction;
 	// Use this for initialization
 	void Start()
@@ -23,6 +43,7 @@ public class PlayerController : MonoBehaviour {
 		//Screen.orientation = ScreenOrientation.LandscapeLeft;
 		//Debug.Log ("Device: " + Application.platform);
 		anim = GetComponent<Animator> ();
+		DustTimeCurrent = DustTime;
 	}
 
 	void Update() {
@@ -131,12 +152,28 @@ public class PlayerController : MonoBehaviour {
 				transform.Translate (new Vector3 (moveHorizontal * Currentspeed, 0f, 0f));
 				playerMoving = true;
 				lastMove = new Vector2 (moveHorizontal, 0f);
+
+				//dusting for left and right
+				DustDirectionX = moveHorizontal;
+				DustdirectionLockRightLeft = true;
+				dusty();
+				DustdirectionLockRightLeft = false;
 				}
 		
 			if (moveVertical > MoveThreshold || moveVertical < - MoveThreshold) { 
 				transform.Translate (new Vector3 (0f, moveVertical * Currentspeed, 0f));
 				playerMoving = true;
 				lastMove = new Vector2 (0f, moveVertical);
+
+				//dusting for up and down
+				DustDirectionY = moveVertical;
+
+				DustdirectionLockUpDown = true;
+				dusty();
+				DustdirectionLockUpDown = false;
+
+
+
 			} 
 		} else {
 			//stops movement on the spot 
@@ -151,4 +188,53 @@ public class PlayerController : MonoBehaviour {
 	anim.SetFloat ("LastMoveX", lastMove.x);
 	anim.SetFloat ("LastMoveY", lastMove.y);
 	}
+
+	void dusty(){
+		
+		DustTime--;
+		if (DustTime <= 0) {
+			DustTime = DustTimeCurrent;
+
+				if (DustdirectionLockRightLeft == true && DustdirectionLockUpDown == false) {
+				float DustBounceX = Random.Range (DustBounceLow, DustBounceHigh);
+				float DustBounceY = Random.Range (DustBounceLow, DustBounceHigh);
+					if (DustDirectionX > 0) {
+						//left dust
+					Instantiate (dust, new Vector3 (this.gameObject.transform.position.x - DustOffXRightLeft + DustBounceX, this.gameObject.transform.position.y + DustOffYRightLeft + DustBounceY, 0f), Quaternion.identity);
+
+				/*	GameObject box = Instantiate(rayUp.collider.gameObject, new Vector3(boxPostionX , boxPostionY, 0), Quaternion.identity);
+					box.transform.localScale = new Vector3 (0.2f, 0.2f, 0);
+					box.gameObject.AddComponent<Rigidbody2D>();
+					box.gameObject.GetComponent<Rigidbody2D> ().AddForce (Vector2.right * foceNumber);
+				*/
+				
+				} else {
+						//right dust
+						//Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustOffXRightLeft, this.gameObject.transform.position.y + DustOffYRightLeft, 0f), Quaternion.identity);
+						Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustOffXRightLeft + DustBounceX, this.gameObject.transform.position.y + DustOffYRightLeft + DustBounceY, 0f), Quaternion.identity);
+					}
+				}
+
+
+				
+				if (DustdirectionLockUpDown == true && DustdirectionLockRightLeft == false) {
+				float DustBounceX = Random.Range (DustBounceLow, DustBounceHigh);
+				float DustBounceY = Random.Range (DustBounceLow, DustBounceHigh);
+					if (DustDirectionY > 0) {
+						//up
+					Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustBounceX, this.gameObject.transform.position.y + DustOffYUpDown + DustBounceY, 0f), Quaternion.identity);
+					} else {
+						//down
+					Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustBounceX, this.gameObject.transform.position.y - DustOffYUpDown + DustBounceY, 0f), Quaternion.identity);
+					}
+				}
+				
+
+
+
+
+
+		}
+	}
+
 }
