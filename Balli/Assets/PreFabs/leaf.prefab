@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemName: leaf
+  NPC: {fileID: 0}
 --- !u!212 &212841989476865874
 SpriteRenderer:
   m_ObjectHideFlags: 1

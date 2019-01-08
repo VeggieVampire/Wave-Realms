@@ -20,7 +20,14 @@ public class dust : MonoBehaviour {
 		//Debug.Log ("DTIME: " + DestroyTime);
 		transform.localScale -= new Vector3 (DustSizeReducation, DustSizeReducation, 0f);
 		transform.Rotate  (new Vector3 (0f, 0f, RotationolSpeed*Time.deltaTime) );	
+		//transform.gameObject.AddComponent<Rigidbody2D>();
+		//transform.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0;
 
+		//GameObject box = Instantiate(rayUp.collider.gameObject, new Vector3(boxPostionX , boxPostionY, 0), Quaternion.identity);
+		//box.transform.localScale = new Vector3 (0.2f, 0.2f, 0);
+		//box.gameObject.AddComponent<Rigidbody2D>();
+		//GetComponent<Rigidbody2D>().AddForce (Vector2.up * 1000);
+		//rayDown.collider.gameObject.GetComponent<Rigidbody2D> ().AddForce (Vector2.right * 200);
 		if (DestroyTime <= 0 || transform.localScale.x <= DustSizeDestroy) {
 			Destroy(gameObject);
 

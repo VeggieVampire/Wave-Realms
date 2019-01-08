@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DustSizeReducation: 0.01
-  DustSizeDestroy: -0.88
+  DustSizeDestroy: -4.2
   DestroyTime: 50
   RotationolSpeed: -250
 --- !u!212 &212649827499454240

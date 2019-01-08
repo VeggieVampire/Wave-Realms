@@ -39,7 +39,8 @@ public class ItemProperties : MonoBehaviour {
 			NPC = col.gameObject;
 			Debug.Log (col.gameObject.tag);
 			if (ItemName == "leaf") {
-				Instantiate (NPC, new Vector3 (this.gameObject.transform.position.x, this.gameObject.transform.position.y, 0f), Quaternion.identity);
+				Instantiate (NPC, new Vector3 (this.gameObject.transform.position.x + 0.2f, this.gameObject.transform.position.y + 0.2f, 0f), Quaternion.identity);
+
 				Destroy(this.gameObject);
 			}
 		}

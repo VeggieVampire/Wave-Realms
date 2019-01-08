@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour {
 	public float DustOffXUpDown;
 	public float DustOffYUpDown;
 	public float DustTime;
+	public float dustSpeed = 200;
 	private float DustTimeCurrent;
 
 	private float DustDirectionX;
@@ -200,8 +201,10 @@ public class PlayerController : MonoBehaviour {
 				float DustBounceY = Random.Range (DustBounceLow, DustBounceHigh);
 					if (DustDirectionX > 0) {
 						//left dust
-					Instantiate (dust, new Vector3 (this.gameObject.transform.position.x - DustOffXRightLeft + DustBounceX, this.gameObject.transform.position.y + DustOffYRightLeft + DustBounceY, 0f), Quaternion.identity);
-
+					Transform LeftDust = Instantiate (dust, new Vector3 (this.gameObject.transform.position.x - DustOffXRightLeft + DustBounceX, this.gameObject.transform.position.y + DustOffYRightLeft + DustBounceY, 0f), Quaternion.identity);
+					LeftDust.gameObject.AddComponent<Rigidbody2D>();
+					LeftDust.transform.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0;
+					LeftDust.gameObject.GetComponent<Rigidbody2D>().AddForce (Vector2.right * dustSpeed);
 				/*	GameObject box = Instantiate(rayUp.collider.gameObject, new Vector3(boxPostionX , boxPostionY, 0), Quaternion.identity);
 					box.transform.localScale = new Vector3 (0.2f, 0.2f, 0);
 					box.gameObject.AddComponent<Rigidbody2D>();
@@ -211,7 +214,10 @@ public class PlayerController : MonoBehaviour {
 				} else {
 						//right dust
 						//Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustOffXRightLeft, this.gameObject.transform.position.y + DustOffYRightLeft, 0f), Quaternion.identity);
-						Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustOffXRightLeft + DustBounceX, this.gameObject.transform.position.y + DustOffYRightLeft + DustBounceY, 0f), Quaternion.identity);
+					Transform RightDust = Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustOffXRightLeft + DustBounceX, this.gameObject.transform.position.y + DustOffYRightLeft + DustBounceY, 0f), Quaternion.identity);
+					RightDust.gameObject.AddComponent<Rigidbody2D>();
+					RightDust.transform.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0;
+					RightDust.gameObject.GetComponent<Rigidbody2D>().AddForce (Vector2.left * dustSpeed);
 					}
 				}
 
@@ -222,10 +228,16 @@ public class PlayerController : MonoBehaviour {
 				float DustBounceY = Random.Range (DustBounceLow, DustBounceHigh);
 					if (DustDirectionY > 0) {
 						//up
-					Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustBounceX, this.gameObject.transform.position.y + DustOffYUpDown + DustBounceY, 0f), Quaternion.identity);
+					Transform UpDust = Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustBounceX, this.gameObject.transform.position.y + DustOffYUpDown + DustBounceY, 0f), Quaternion.identity);
+					UpDust.gameObject.AddComponent<Rigidbody2D>();
+					UpDust.transform.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0;
+					UpDust.gameObject.GetComponent<Rigidbody2D>().AddForce (Vector2.up * dustSpeed);
 					} else {
 						//down
-					Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustBounceX, this.gameObject.transform.position.y - DustOffYUpDown + DustBounceY, 0f), Quaternion.identity);
+					Transform DownDust = Instantiate (dust, new Vector3 (this.gameObject.transform.position.x + DustBounceX, this.gameObject.transform.position.y - DustOffYUpDown + DustBounceY, 0f), Quaternion.identity);
+					DownDust.gameObject.AddComponent<Rigidbody2D>();
+					DownDust.transform.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0;
+					DownDust.gameObject.GetComponent<Rigidbody2D>().AddForce (Vector2.down * dustSpeed);
 					}
 				}
 				
