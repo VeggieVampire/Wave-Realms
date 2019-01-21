@@ -5235,7 +5235,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1682044741164618, guid: 3fcaa796182558d46adeb733a263dfb2, type: 2}
       propertyPath: m_Name
-      value: tick_fairy_green (1)
+      value: tick_fairy_green2
       objectReference: {fileID: 0}
     - target: {fileID: 114493743407337424, guid: 3fcaa796182558d46adeb733a263dfb2,
         type: 2}
@@ -7046,6 +7046,7 @@ MonoBehaviour:
   moveSpeed: 5
   timeBetweenMove: 2
   timeToMove: 1
+  waitToReload: 4
 --- !u!50 &504729134
 Rigidbody2D:
   serializedVersion: 4
@@ -15406,6 +15407,7 @@ MonoBehaviour:
   moveSpeed: 5
   timeBetweenMove: 2
   timeToMove: 1
+  waitToReload: 4
 --- !u!58 &1021201865
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -25288,6 +25290,7 @@ MonoBehaviour:
   moveSpeed: 5
   timeBetweenMove: 2
   timeToMove: 1
+  waitToReload: 0
 --- !u!1 &1615269254
 GameObject:
   m_ObjectHideFlags: 0
@@ -30920,7 +30923,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1682044741164618, guid: 3fcaa796182558d46adeb733a263dfb2, type: 2}
       propertyPath: m_Name
-      value: tick_fairy_green (2)
+      value: tick_fairy_green3
       objectReference: {fileID: 0}
     - target: {fileID: 114493743407337424, guid: 3fcaa796182558d46adeb733a263dfb2,
         type: 2}
@@ -32335,6 +32338,7 @@ MonoBehaviour:
   moveSpeed: 5
   timeBetweenMove: 2
   timeToMove: 1
+  waitToReload: 4
 --- !u!58 &2037812709
 CircleCollider2D:
   m_ObjectHideFlags: 0

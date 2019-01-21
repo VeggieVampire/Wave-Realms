@@ -17,10 +17,13 @@ public class SlugoController : MonoBehaviour {
 	private Vector3 MoveDirection;
 
 
-
+	public float waitToReload;
+	private bool reloading;
 	private CameraSystem theCamera;
+	private GameObject thePlayer;
 	// Use this for initialization
 	void Start () {
+		reloading = false;
 		moving = false;
 		myRigidbody = GetComponent<Rigidbody2D> ();
 
@@ -61,17 +64,28 @@ public class SlugoController : MonoBehaviour {
 
 			}
 		}
+		if (reloading) { // if reloading is true
+			waitToReload -= Time.deltaTime;
+			if (waitToReload < 0) {
+				Application.LoadLevel (Application.loadedLevel);
+				thePlayer.SetActive (true);
+			}
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
 		//when colliders meet, do something
 
 		if(other.gameObject.name == "Player"){
+			reloading = true;
 
 			//theCamera gets a new Object to follow.
 			theCamera = FindObjectOfType<CameraSystem> ();
 			theCamera.followTarget = this.gameObject;
-			Destroy (other.gameObject); // Destroy the player
+			thePlayer = other.gameObject;
+			other.gameObject.SetActive (false);
+			//Destroy (other.gameObject); // Destroy the player
+
 		}
 
 	}
