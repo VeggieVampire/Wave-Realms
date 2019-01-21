@@ -15,6 +15,10 @@ public class SlugoController : MonoBehaviour {
 	private float timeToMoveCounter;
 
 	private Vector3 MoveDirection;
+
+
+
+	private CameraSystem theCamera;
 	// Use this for initialization
 	void Start () {
 		moving = false;
@@ -29,6 +33,9 @@ public class SlugoController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
+
 
 
 		if (moving) { //moving
@@ -54,5 +61,18 @@ public class SlugoController : MonoBehaviour {
 
 			}
 		}
+	}
+
+	void OnCollisionEnter2D(Collision2D other){
+		//when colliders meet, do something
+
+		if(other.gameObject.name == "Player"){
+
+			//theCamera gets a new Object to follow.
+			theCamera = FindObjectOfType<CameraSystem> ();
+			theCamera.followTarget = this.gameObject;
+			Destroy (other.gameObject); // Destroy the player
+		}
+
 	}
 }
