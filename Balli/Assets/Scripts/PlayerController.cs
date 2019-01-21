@@ -6,11 +6,11 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour {
 	//[SerializeField]
-	private float PlayerSpeed = 10f;             //Floating point variable to store the player's movement speed.
+	private float PlayerSpeed = 400f;             //Floating point variable to store the player's movement speed.
 	public static RuntimePlatform platform;
 
 	private float MoveThreshold = 0.5f;
-	private Rigidbody2D rb2d;       //Store a reference to the Rigidbody2D component required to use 2D Physics.
+	private Rigidbody2D myRigidbody;       //Store a reference to the Rigidbody2D component required to use 2D Physics.
 
 	private Animator anim;
 	private bool playerMoving;
@@ -44,11 +44,14 @@ public class PlayerController : MonoBehaviour {
 		//Screen.orientation = ScreenOrientation.LandscapeLeft;
 		//Debug.Log ("Device: " + Application.platform);
 		anim = GetComponent<Animator> ();
+		myRigidbody = GetComponent<Rigidbody2D> ();
 		DustTimeCurrent = DustTime;
 	}
 
 	void Update() {
-		Move ();
+		Move2 ();
+		//Move ();
+		Move3 ();
 	}
 
 	void OnCollisionEnter2D (Collision2D col){
@@ -126,6 +129,7 @@ public class PlayerController : MonoBehaviour {
 	private void Move(){
 		float Currentspeed = PlayerSpeed*Time.deltaTime;
 		playerMoving = false;
+
 		#region
 		float moveHorizontal = 0f;
 		float moveVertical = 0f;
@@ -150,7 +154,8 @@ public class PlayerController : MonoBehaviour {
 		if (moveHorizontal != 0 || moveVertical != 0 ) {
 			//movement not null, now check
 			if (moveHorizontal > MoveThreshold || moveHorizontal < - MoveThreshold) { 
-				transform.Translate (new Vector3 (moveHorizontal * Currentspeed, 0f, 0f));
+				//transform.Translate (new Vector3 (moveHorizontal * Currentspeed, 0f, 0f));
+				myRigidbody.velocity = new Vector2(moveHorizontal * Currentspeed, myRigidbody.velocity.y);
 				playerMoving = true;
 				lastMove = new Vector2 (moveHorizontal, 0f);
 
@@ -162,7 +167,9 @@ public class PlayerController : MonoBehaviour {
 				}
 		
 			if (moveVertical > MoveThreshold || moveVertical < - MoveThreshold) { 
-				transform.Translate (new Vector3 (0f, moveVertical * Currentspeed, 0f));
+				//transform.Translate (new Vector3 (0f, moveVertical * Currentspeed, 0f));
+				myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, moveVertical * Currentspeed);
+
 				playerMoving = true;
 				lastMove = new Vector2 (0f, moveVertical);
 
@@ -176,11 +183,20 @@ public class PlayerController : MonoBehaviour {
 
 
 			} 
+			//stop player from drifting
+			if (moveHorizontal < 0.51f && moveHorizontal > -0.51f) {
+				myRigidbody.velocity = new Vector2 (0f, myRigidbody.velocity.y);
+			}
+			if (moveVertical < 0.51f && moveVertical > -0.51f) {
+				myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, 0f);
+			}
+
 		} else {
 			//stops movement on the spot 
 			//Debug.Log ("Last Direction "+ direction);
 			//rb2d.velocity = Vector2.zero;
-			transform.Translate (new Vector3 (0f, 0f, 0f));
+			//transform.Translate (new Vector3 (0f, 0f, 0f));
+
 			playerMoving = false;
 		}
 	anim.SetFloat ("MoveXanim", moveHorizontal);
@@ -189,6 +205,94 @@ public class PlayerController : MonoBehaviour {
 	anim.SetFloat ("LastMoveX", lastMove.x);
 	anim.SetFloat ("LastMoveY", lastMove.y);
 	}
+
+	private void Move2(){
+		playerMoving = false;
+		//float Currentspeed = PlayerSpeed*Time.deltaTime;
+		float Currentspeed = PlayerSpeed*Time.fixedDeltaTime;
+
+		//Cross platform Input
+		#region
+		float moveHorizontal = 0f;
+		float moveVertical = 0f;
+		//Horizontal movement
+		if (Input.GetAxis ("Horizontal") != 0){
+			moveHorizontal = Input.GetAxis ("Horizontal");
+		} else if  (CrossPlatformInputManager.GetAxis("Horizontal") != 0){
+			//Moblie Horizontal
+			moveHorizontal = CrossPlatformInputManager.GetAxis ("Horizontal");
+		}
+
+		//Vertical movement
+		if (Input.GetAxis ("Vertical") != 0){
+			moveVertical = Input.GetAxis ("Vertical");
+		} else if  (CrossPlatformInputManager.GetAxis("Vertical") != 0){
+			//Moblie Vertical
+			moveVertical = CrossPlatformInputManager.GetAxis ("Vertical");
+		}
+		#endregion
+
+		//Movement
+		#region
+		if(moveHorizontal > 0.5f || moveHorizontal < -0.5f)
+		{
+			//transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f, 0f));
+			myRigidbody.velocity = new Vector2(moveHorizontal * Currentspeed, myRigidbody.velocity.y);
+			playerMoving = true;
+			lastMove = new Vector2(moveHorizontal, 0f);
+
+
+			//dusting for left and right
+			DustDirectionX = moveHorizontal;
+			DustdirectionLockRightLeft = true;
+			dusty();
+			DustdirectionLockRightLeft = false;
+
+		}
+		else
+		{
+			myRigidbody.velocity = new Vector2(0f, myRigidbody.velocity.y);
+		}
+
+		if (moveVertical > 0.5f || moveVertical < -0.5f)
+		{
+			//transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
+			myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, Input.GetAxisRaw("Vertical") * Currentspeed);
+			playerMoving = true;
+			lastMove = new Vector2(0f, moveVertical);
+
+			//dusting for up and down
+			DustdirectionLockUpDown = true;
+			dusty();
+			DustdirectionLockUpDown = false;
+		}
+		else
+		{
+			myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, 0f);
+		}﻿
+
+			
+		
+		#endregion
+
+		//Animation
+		#region
+		anim.SetFloat ("MoveXanim", moveHorizontal);
+		anim.SetFloat ("MoveYanim", moveVertical);
+		anim.SetBool ("PlayerMoving", playerMoving);
+		anim.SetFloat ("LastMoveX", lastMove.x);
+		anim.SetFloat ("LastMoveY", lastMove.y);
+		#endregion
+		playerMoving = false;
+	}
+
+
+	private void Move3(){
+
+
+
+	}
+
 
 	void dusty(){
 		

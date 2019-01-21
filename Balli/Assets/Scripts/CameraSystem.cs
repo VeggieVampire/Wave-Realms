@@ -68,18 +68,21 @@ public class CameraSystem : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void Update() {
 		
+
+
+										
+	}
+	// Last Update is called once per frame
+	void LateUpdate () {
 
 		targetPos = new Vector3 (followTarget.transform.position.x, followTarget.transform.position.y, transform.position.z);
 		transform.position = Vector3.Lerp(
 			transform.position,											//Position Currently at //FROM
 			targetPos, 													//Position Want to be at //TO
 			moveSpeed * Time.deltaTime  );								// At what speed
-										
-	}
-	// Last Update is called once per frame
-	void LateUpdate () {
+
 		Clamping();
 	}
 
