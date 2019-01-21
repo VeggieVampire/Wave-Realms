@@ -23,10 +23,10 @@ GameObject:
   - component: {fileID: 95244542874513340}
   - component: {fileID: 114565147551629464}
   - component: {fileID: 50092479817448710}
-  - component: {fileID: 58401139690763544}
+  - component: {fileID: 61282611435444142}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1660622826784892}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 8.071983, y: 7.834425, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -55,17 +55,17 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.5
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!58 &58401139690763544
-CircleCollider2D:
+  m_Constraints: 4
+--- !u!61 &61282611435444142
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -76,9 +76,19 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.019095182, y: -0.009165287}
+  m_Offset: {x: 0.0075883865, y: -0.025294423}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.16, y: 1.24}
+    newSize: {x: 2.9, y: 3.1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.4658165
+  m_Size: {x: 0.59846306, y: 0.98705554}
+  m_EdgeRadius: 0
 --- !u!95 &95244542874513340
 Animator:
   serializedVersion: 3
@@ -107,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fd712ae992c1e48b948debd6768935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dust: {fileID: 4945409158796764, guid: 80d681b66d2876d4380b9b29caaeccfd, type: 2}
 --- !u!212 &212325029152943744
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -138,8 +149,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1296738403
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c4a28a4bc69fc6142a3083ffea9b7219, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
