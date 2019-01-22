@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCController : MonoBehaviour {
+public class NPCfallowPLayer : MonoBehaviour {
 	public float NPCSpeed = 1;
 	public float DistanceFromTarget = 5;
 	private Rigidbody2D MyRigidbody;
@@ -19,7 +19,10 @@ public class NPCController : MonoBehaviour {
 	//private Vector3 startLine;
 	//private GameObject followTarget; 
 	//private Vector3 TargetLine;
-
+	public float waitToReload;
+	private bool reloading;
+	private CameraSystem theCamera;
+	private GameObject thePlayer;
 
 	private void Awake(){
 		NPC = this.transform;
@@ -27,6 +30,10 @@ public class NPCController : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
+		
+		reloading = false;
+		waitToReload = 5;
+
 		MyRigidbody = GetComponent<Rigidbody2D>();
 		//DurectionRadomNumber = Random.Range (1, 4);
 		DurectionRadomNumber = 3;
@@ -66,16 +73,17 @@ public class NPCController : MonoBehaviour {
 
 			//checks distance from followTarget and NPC
 			if(Distance() <= DistanceFromTarget){
+				
 				//Makes NPC face followTarget
 				transform.up = followTarget.position - transform.position;
-
+				//MyRigidbody.velocity = new Vector2 (MyRigidbody.velocity.x, followTarget.position.y * Currentspeed);
 				//moves NPC
 				Moving();	
 			}
 			//transform.LookAt (player);
 
 		} else {
-			Debug.Log ("Player not found");
+		//	Debug.Log ("Player not found");
 		}
 
 
@@ -89,6 +97,15 @@ public class NPCController : MonoBehaviour {
 	}
 	void Moving(){
 
+
+		if (reloading) { // if reloading is true
+			waitToReload -= Time.deltaTime;
+			if (waitToReload < 0) {
+				Application.LoadLevel (Application.loadedLevel);
+				thePlayer.SetActive (true);
+				theCamera.followTarget = thePlayer;
+			}
+		}
 		GetComponent<Animator> ().SetBool ("IsMoving", true);
 		//transform.Translate (new Vector3 (Currentspeed, 0f, 0f));
 		//NewDurection ();
@@ -132,7 +149,7 @@ public class NPCController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D (Collision2D col){
-		Debug.Log("NPC has collided with " + col.collider.name);
+		Debug.Log(this.gameObject.name + " has collided with " + col.collider.name);
 		GetComponent<Animator> ().SetBool ("IsMoving", false);
 		/*
 		Rotation = Rotation + 1;
@@ -148,7 +165,16 @@ public class NPCController : MonoBehaviour {
 			}
 		if(col.gameObject.tag == "Player"){
 			//Instantiate (gameObject, new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y, 0), Quaternion.identity);
-			NewDurection ();
+			reloading = true;
+
+			//theCamera gets a new Object to follow.
+			theCamera = FindObjectOfType<CameraSystem> ();
+			theCamera.followTarget = this.gameObject;
+			thePlayer = col.gameObject;
+			col.gameObject.SetActive (false);
+
+
+			//NewDurection ();
 		}
 		if(col.gameObject.tag == "Item"){
 			//Instantiate (gameObject, new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y, 0), Quaternion.identity);

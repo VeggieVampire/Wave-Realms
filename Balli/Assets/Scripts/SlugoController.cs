@@ -69,22 +69,31 @@ public class SlugoController : MonoBehaviour {
 			if (waitToReload < 0) {
 				Application.LoadLevel (Application.loadedLevel);
 				thePlayer.SetActive (true);
+				theCamera = FindObjectOfType<CameraSystem> (); //calls CameraSystem
 				theCamera.followTarget = thePlayer;
+				//reloading = false;
 			}
 		}
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
 		//when colliders meet, do something
+		//CheckPlayerCollision(other);
 
+
+	}
+
+
+	void CheckPlayerCollision(Collision2D other){
 		if(other.gameObject.name == "Player"){
 			reloading = true;
 
 			//theCamera gets a new Object to follow.
-			theCamera = FindObjectOfType<CameraSystem> ();
-			theCamera.followTarget = this.gameObject;
-			thePlayer = other.gameObject;
-			other.gameObject.SetActive (false);
+			theCamera = FindObjectOfType<CameraSystem> (); //calls CameraSystem
+			theCamera.followTarget = this.gameObject; //fallow this NPC
+			thePlayer = other.gameObject;// sets player
+
+			other.gameObject.SetActive (false); //hides player
 			//Destroy (other.gameObject); // Destroy the player
 
 		}

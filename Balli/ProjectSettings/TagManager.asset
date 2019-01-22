@@ -7,6 +7,7 @@ TagManager:
   - NPC
   - Walls
   - Item
+  - Enemy
   layers:
   - Default
   - TransparentFX
