@@ -48,7 +48,7 @@ TagManager:
   - name: background
     uniqueID: 774993201
     locked: 0
-  - name: mid
+  - name: player
     uniqueID: 3969895987
     locked: 0
   - name: top
