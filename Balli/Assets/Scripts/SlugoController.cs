@@ -69,6 +69,7 @@ public class SlugoController : MonoBehaviour {
 			if (waitToReload < 0) {
 				Application.LoadLevel (Application.loadedLevel);
 				thePlayer.SetActive (true);
+				theCamera.followTarget = thePlayer;
 			}
 		}
 	}
